@@ -16,9 +16,11 @@ import com.jme3.scene.shape.Box;
 public class GameManager {
     private Main app = null;
     private ScreensManager screenManager = null;
+    private WorldManager worldManager = null;
     
     GameManager(Main mainApp) {
         this.app = mainApp;
+        worldManager = new WorldManager(app.getStateManager());
     }
     
     public Main getApp() { return this.app; }
