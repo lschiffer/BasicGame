@@ -19,8 +19,9 @@ public class GameManager {
     
     GameManager(Main mainApp) {
         this.app = mainApp;
-        this.worldManager = new WorldManager(app.getStateManager());
+        worldManager = new WorldManager(app);
         this.network = new NetworkManager(this);
+
     }
     
     public Main getApp() { return this.app; }
@@ -32,23 +33,11 @@ public class GameManager {
         screenManager = new ScreensManager(this);
         screenManager.init();  
         screenManager.getMainScreen().showScreen();
-        
-        initWorld();
-    }
-    
-    public void initWorld() {
-        Box b = new Box(1, 1, 1);
-        Geometry geom = new Geometry("Box", b);
-
-        Material mat = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
-
-        app.getRootNode().attachChild(geom);
     }
     
     public void startServer()
     {
         
     }
+
 }
