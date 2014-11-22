@@ -2,10 +2,8 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.network.Client;
-import com.jme3.network.Network;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
-import java.io.IOException;
 
 /**
  * test
@@ -20,36 +18,15 @@ public class Main extends SimpleApplication {
     GameManager myGameManager = null;
 
     public static void main(String[] args) {
-        Main app = new Main(true);
+        Main app = new Main();
         app.showSettings = false;
         app.start();
-    }
-    
-    Main(boolean initAsServer)
-    {
-        this.isServer = initAsServer;
     }
 
     @Override
     public void simpleInitApp() {
-        if (this.isServer) {
-            try {
-                myServer = Network.createServer(serverPort);
-                myServer.start();
-                myGameManager = new GameManager(this);
-            } catch (IOException exception) {
-            }
-        } else {
-            try {
-                myClient = Network.connectToServer("", serverPort);
-                myClient.start();
-                myGameManager = new GameManager(this);
-            } catch (IOException exception) {
-            }
-        }
-        
-        if (myGameManager != null)
-            myGameManager.init();
+        myGameManager = new GameManager(this);
+        myGameManager.init();
     }
 
     @Override

@@ -10,6 +10,7 @@ import de.lessvoid.nifty.builder.ScreenBuilder;
 import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import mygame.network.PacketChat;
 
 /**
  *
@@ -47,7 +48,7 @@ public class MainMenuScreen extends AbstractAppState implements ScreenController
                
                // panel added
                 panel(new PanelBuilder("panel_center") {{
-                    childLayoutCenter();
+                    childLayoutVertical();
                     alignCenter();
                     backgroundColor("#f008");
                     height("25%");
@@ -59,14 +60,18 @@ public class MainMenuScreen extends AbstractAppState implements ScreenController
                       valignCenter();
                       height("50%");
                       width("50%");
+                      interactOnClick("createGame()");
                     }});
                     
                     // add control
-                    control(new ButtonBuilder("CreateGameButton", "Join Game") {{
+                    control(new ButtonBuilder("JoinGameButton", "Join Game") {{
                       alignCenter();
                       valignCenter();
                       height("50%");
                       width("50%");
+                      marginTop("10px");
+                      marginBottom("10px");
+                      interactOnClick("joinGame()");
                     }});
                     
                     // add control
@@ -87,6 +92,23 @@ public class MainMenuScreen extends AbstractAppState implements ScreenController
     {
         Nifty nifty = parent.getNiftyDisplay().getNifty();
         nifty.gotoScreen(this.screenID);
+    }
+    
+    public void createGame() {
+        parent.getGame().getNetworkManager().closeConnectionToServer();
+        if (parent.getGame().getNetworkManager().startServer())
+        {
+            Nifty nifty = parent.getNiftyDisplay().getNifty();
+            nifty.gotoScreen("empty");
+        }
+    }
+    
+    public void joinGame() {
+        parent.getGame().getNetworkManager().stopServer();
+        if (parent.getGame().getNetworkManager().connectToServer("localhost"))
+        {
+            parent.getGame().getNetworkManager().sendPacket(new PacketChat("Löfl"));
+        }
     }
     
     public void quitGame() {
