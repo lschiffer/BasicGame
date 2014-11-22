@@ -4,31 +4,57 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.network.Client;
+import com.jme3.network.Network;
+import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
+import java.io.IOException;
 
 /**
  * test
  * @author normenhansen
  */
 public class Main extends SimpleApplication {
+    private static final int serverPort = 27375;
+    private boolean isServer = false;
+    private Server myServer = null;
+    private Client myClient = null;
+    
+    GameManager myGameManager = null;
 
     public static void main(String[] args) {
-        Main app = new Main();
+        Main app = new Main(true);
+        app.showSettings = false;
         app.start();
+    }
+    
+    Main(boolean initAsServer)
+    {
+        this.isServer = initAsServer;
     }
 
     @Override
     public void simpleInitApp() {
-        Box b = new Box(1, 1, 1);
-        Geometry geom = new Geometry("Box", b);
-
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
-
-        rootNode.attachChild(geom);
+        if (this.isServer) {
+            try {
+                myServer = Network.createServer(serverPort);
+                myServer.start();
+                myGameManager = new GameManager(this);
+            } catch (IOException exception) {
+            }
+        } else {
+            try {
+                myClient = Network.connectToServer("", serverPort);
+                myClient.start();
+                myGameManager = new GameManager(this);
+            } catch (IOException exception) {
+            }
+        }
+        
+        if (myGameManager != null)
+            myGameManager.init();
     }
 
     @Override
