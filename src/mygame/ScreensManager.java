@@ -6,11 +6,6 @@ package mygame;
 
 import com.jme3.niftygui.NiftyJmeDisplay;
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.builder.LayerBuilder;
-import de.lessvoid.nifty.builder.PanelBuilder;
-import de.lessvoid.nifty.builder.ScreenBuilder;
-import de.lessvoid.nifty.controls.button.builder.ButtonBuilder;
-import de.lessvoid.nifty.screen.DefaultScreenController;
 
 /**
  *
@@ -19,15 +14,26 @@ import de.lessvoid.nifty.screen.DefaultScreenController;
 public class ScreensManager {
     private GameManager game = null;
     
+    private HudScreen hudScreen = null;
+    private MainMenuScreen mainMenu = null;
+    private SettingsScreen settingsScreen = null;
+    
+    private NiftyJmeDisplay niftyDisplay = null;
+    
     ScreensManager(GameManager parentGame)
     {
         this.game = parentGame;
     }
     
+    public GameManager getGame() { return this.game; }
+    public MainMenuScreen getMainScreen() { return this.mainMenu; }
+    
+    public NiftyJmeDisplay getNiftyDisplay() { return this.niftyDisplay; }
+    
     public void init()
     {
         Main app = game.getApp();
-        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(
+        niftyDisplay = new NiftyJmeDisplay(
             app.getAssetManager(), app.getInputManager(), app.getAudioRenderer(), app.getGuiViewPort());
         Nifty nifty = niftyDisplay.getNifty();
         app.getGuiViewPort().addProcessor(niftyDisplay);
@@ -35,7 +41,16 @@ public class ScreensManager {
 
         nifty.loadStyleFile("nifty-default-styles.xml");
         nifty.loadControlFile("nifty-default-controls.xml");
+        
+        this.hudScreen = new HudScreen(this);
+        this.mainMenu = new MainMenuScreen(this);
+        this.settingsScreen = new SettingsScreen(this);
+        
+        this.hudScreen.init();
+        this.mainMenu.init();
+        this.settingsScreen.init();
 
+        /*
         // <screen>
         nifty.addScreen("Screen_ID", new ScreenBuilder("Hello Nifty Screen"){{
             controller(new DefaultScreenController()); // Screen properties       
@@ -64,18 +79,8 @@ public class ScreensManager {
             // </layer>
           }}.build(nifty));
         // </screen>
+        * */
         
-        ///// Main Menu //////
-        nifty.addScreen("main", new ScreenBuilder("main"){{
-            controller(new DefaultScreenController());
-        }}.build(nifty));
-        //////////////////////
-        
-        //////// HUD ////////
-        nifty.addScreen("hud", new ScreenBuilder("hud"){{
-            controller(new DefaultScreenController());
-        }}.build(nifty));
-        /////////////////////
 
         //nifty.gotoScreen("Screen_ID"); // start the screen
     }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mygame;
 
 import com.jme3.material.Material;
@@ -27,7 +23,8 @@ public class GameManager {
     
     public void init() {
         screenManager = new ScreensManager(this);
-        screenManager.init();
+        screenManager.init();  
+        screenManager.getMainScreen().showScreen();
         
         initWorld();
     }

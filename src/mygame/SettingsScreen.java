@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mygame;
 
 /**
@@ -9,5 +5,15 @@ package mygame;
  * @author MasterM
  */
 public class SettingsScreen {
+    private ScreensManager parent;
     
+    SettingsScreen(ScreensManager parentScreensManager)
+    {
+        this.parent = parentScreensManager;
+    }
+    
+    public void init()
+    {
+        
+    }
 }
