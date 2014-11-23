@@ -33,8 +33,6 @@ public class WorldManager {
         this.app = app;
         bulletAppState = new BulletAppState();  
         app.getStateManager().attach(bulletAppState);
-        
-        initWorld();
     }
     
     public void initWorld() {
@@ -54,7 +52,7 @@ public class WorldManager {
         mat.setColor("Color", ColorRGBA.Blue);
         geom.setMaterial(mat);
         geom.setShadowMode(RenderQueue.ShadowMode.Cast);
-        app.getRootNode().attachChild(geom);
+        addImmovable(geom);
                
         AmbientLight al = new AmbientLight();
         al.setColor(ColorRGBA.White.mult(1.3f));
@@ -67,7 +65,7 @@ public class WorldManager {
         
         PointLightShadowRenderer shadowRenderer1 = new PointLightShadowRenderer(app.getAssetManager(), 512);
         shadowRenderer1.setLight(light);
-        //app.getViewPort().addProcessor(shadowRenderer1);
+        app.getViewPort().addProcessor(shadowRenderer1);
         
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
@@ -79,20 +77,24 @@ public class WorldManager {
         
     }
     
-    public void addImmovable(Geometry geometry) {
+    public PhysicsRigidBody addImmovable(Geometry geometry) {
         
         CollisionShape shape = CollisionShapeFactory.createMeshShape(geometry);
         PhysicsRigidBody body = new PhysicsRigidBody(shape, 0);
+        body.setPhysicsLocation(geometry.getLocalTranslation());
         bulletAppState.getPhysicsSpace().add(body);
         app.getRootNode().attachChild(geometry);
+        return body;
     }
     
-    public void addMovable(Geometry geometry) {
+    public RigidBodyControl addMovable(Geometry geometry) {
         
         CollisionShape shape = CollisionShapeFactory.createDynamicMeshShape(geometry);
         RigidBodyControl body = new RigidBodyControl(shape, 0);
         bulletAppState.getPhysicsSpace().add(body);
+        geometry.addControl(body);
         app.getRootNode().attachChild(geometry);
+        return body;
     }
     
 }
