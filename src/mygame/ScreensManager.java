@@ -37,7 +37,8 @@ public class ScreensManager {
             app.getAssetManager(), app.getInputManager(), app.getAudioRenderer(), app.getGuiViewPort());
         Nifty nifty = niftyDisplay.getNifty();
         app.getGuiViewPort().addProcessor(niftyDisplay);
-        app.getFlyByCamera().setDragToRotate(true);
+        if (app.getFlyByCamera() != null)
+            app.getFlyByCamera().setDragToRotate(true);
 
         nifty.loadStyleFile("nifty-default-styles.xml");
         nifty.loadControlFile("nifty-default-controls.xml");

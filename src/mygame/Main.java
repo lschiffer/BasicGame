@@ -1,6 +1,7 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AppState;
 import com.jme3.network.Client;
 import com.jme3.network.Server;
 import com.jme3.renderer.RenderManager;
@@ -21,6 +22,11 @@ public class Main extends SimpleApplication {
         Main app = new Main();
         app.showSettings = false;
         app.start();
+    }
+    
+    public Main()
+    {
+        super((AppState)null);
     }
 
     @Override
