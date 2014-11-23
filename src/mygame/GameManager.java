@@ -33,6 +33,8 @@ public class GameManager {
         screenManager = new ScreensManager(this);
         screenManager.init();  
         screenManager.getMainScreen().showScreen();
+        
+        worldManager.initWorld();
     }
     
     public void startServer()
