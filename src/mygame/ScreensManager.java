@@ -49,39 +49,5 @@ public class ScreensManager {
         this.hudScreen.init();
         this.mainMenu.init();
         this.settingsScreen.init();
-
-        /*
-        // <screen>
-        nifty.addScreen("Screen_ID", new ScreenBuilder("Hello Nifty Screen"){{
-            controller(new DefaultScreenController()); // Screen properties       
-
-            // <layer>
-            layer(new LayerBuilder("Layer_ID") {{
-                childLayoutVertical(); // layer properties, add more...
-
-                // <panel>
-                panel(new PanelBuilder("Panel_ID") {{
-                   childLayoutCenter(); // panel properties, add more...               
-
-                    // GUI elements
-                    control(new ButtonBuilder("Button_ID", "Hello Nifty"){{
-                        alignCenter();
-                        valignCenter();
-                        height("5%");
-                        width("15%");
-                    }});
-
-                    //.. add more GUI elements here              
-
-                }});
-                // </panel>
-              }});
-            // </layer>
-          }}.build(nifty));
-        // </screen>
-        * */
-        
-
-        //nifty.gotoScreen("Screen_ID"); // start the screen
     }
 }
